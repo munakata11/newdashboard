@@ -23,9 +23,15 @@ import {
 } from "lucide-react"
 import { useState } from "react"
 import { ja } from "date-fns/locale"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [selectedYear, setSelectedYear] = useState("2024")
+
+  // 現在の年から前後2年分の年度を生成
+  const currentYear = new Date().getFullYear()
+  const years = [currentYear - 2, currentYear - 1, currentYear, currentYear + 1, currentYear + 2]
 
   const onlineMembers = [
     { name: "田中", status: "online" },
@@ -104,7 +110,7 @@ export default function Dashboard() {
           <div className="w-[1700px] mx-auto">
             <div className="flex gap-8">
               {/* Left Column */}
-              <div className="flex-1 space-y-8">
+              <div className="w-[1160px] space-y-8">
                 {/* Gantt Chart */}
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
@@ -113,9 +119,22 @@ export default function Dashboard() {
                   </CardHeader>
                   <CardContent>
                     {/* Timeline Header */}
-                    <div className="mb-8 pt-4">
+                    <div className="mb-1 pt-4">
                       <div className="flex items-center">
-                        <div className="w-[180px]"></div>
+                        <div className="w-[180px] pl-2">
+                          <Select value={selectedYear} onValueChange={setSelectedYear}>
+                            <SelectTrigger className="w-[120px] h-8">
+                              <SelectValue placeholder="年度を選択" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {years.map((year) => (
+                                <SelectItem key={year} value={year.toString()}>
+                                  {year}年度
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
                         <div className="flex-1 flex relative">
                           {Array.from({ length: 12 }, (_, i) => (
                             <div key={i} className="flex-1 text-center text-sm text-muted-foreground">
@@ -124,16 +143,16 @@ export default function Dashboard() {
                           ))}
                         </div>
                       </div>
-                      <div className="flex items-center mt-2">
+                      <div className="flex items-center mt-1">
                         <div className="w-[180px]"></div>
                         <div className="flex-1 relative">
                           <div className="absolute inset-y-0 left-0 right-0 h-[2px] bg-border"></div>
                         </div>
                       </div>
                     </div>
-                    <div className="space-y-6 relative">
+                    <div className="space-y-6 relative pt-2">
                       {/* Vertical grid lines */}
-                      <div className="absolute inset-0 flex" style={{ height: "calc(100% + 24px)", top: "-24px" }}>
+                      <div className="absolute inset-0 flex" style={{ height: "100%" }}>
                         <div className="w-[180px]"></div>
                         <div className="flex-1 relative">
                           {Array.from({ length: 12 }, (_, i) => (
@@ -147,22 +166,39 @@ export default function Dashboard() {
                       </div>
                       {/* Tasks */}
                       {[
-                        { name: "デザイン作成", startMonth: 0, duration: 1, color: "bg-blue-500" },
+                        { name: "デザイン作成", startMonth: 0, duration: 1, color: "bg-blue-500", year: "2024" },
                         {
                           name: "フロントエンド開発",
                           startMonth: 1,
                           duration: 2,
                           color: "bg-indigo-500",
+                          year: "2024"
                         },
                         {
                           name: "バックエンド開発",
                           startMonth: 2,
                           duration: 2,
                           color: "bg-violet-500",
+                          year: "2024"
                         },
-                      ].map((task) => (
+                        {
+                          name: "テスト実施",
+                          startMonth: 4,
+                          duration: 1,
+                          color: "bg-pink-500",
+                          year: "2024"
+                        },
+                        {
+                          name: "ユーザー研修",
+                          startMonth: 5,
+                          duration: 2,
+                          color: "bg-cyan-500",
+                          year: "2024"
+                        },
+                      ].filter(task => task.year === selectedYear)
+                      .map((task) => (
                         <div key={task.name} className="space-y-2 relative z-10">
-                          <div className="flex items-center">
+                          <div className="flex items-center py-1.5">
                             <span className="w-[180px] font-medium text-sm whitespace-nowrap">{task.name}</span>
                             <div className="flex-1 relative">
                               <div
@@ -181,66 +217,69 @@ export default function Dashboard() {
                 </Card>
 
                 {/* Task Stats and ToDo */}
-                <div className="grid grid-cols-2 gap-6">
-                  {/* Task Statistics */}
-                  <Card>
-                    <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
-                      <CardTitle className="text-xl font-semibold text-black">2024年プロジェクト情報</CardTitle>
-                      <CheckCircle2 className="w-5 h-5 text-black/70" />
-                    </CardHeader>
-                    <CardContent className="pt-6">
-                      <div className="space-y-4">
-                        <div className="flex justify-between items-center p-2 rounded-lg bg-blue-50 transition-colors">
-                          <span className="font-medium">進行中プロジェクト</span>
-                          <span className="text-blue-600 font-semibold text-lg">8</span>
-                        </div>
-                        <div className="flex justify-between items-center p-2 rounded-lg bg-green-50 transition-colors">
-                          <span className="font-medium">完了プロジェクト</span>
-                          <span className="text-green-600 font-semibold text-lg">15</span>
-                        </div>
-                        <div className="flex justify-between items-center p-2 rounded-lg bg-orange-50 transition-colors">
-                          <span className="font-medium">今年度の目標</span>
-                          <span className="text-orange-600 font-semibold text-lg">25</span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
+                <div className="grid grid-cols-3 gap-6">
                   {/* ToDo + Task */}
-                  <Card>
-                    <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
-                      <CardTitle className="text-xl font-semibold text-black">ToDo + Task</CardTitle>
-                      <Clock className="w-5 h-5 text-black/70" />
-                    </CardHeader>
-                    <CardContent className="pt-6">
-                      <div className="space-y-4">
-                        {[
-                          { task: "ミーティング準備", priority: "高", color: "bg-red-100 text-red-800 border-red-200" },
-                          {
-                            task: "レポート作成",
-                            priority: "中",
-                            color: "bg-yellow-100 text-yellow-800 border-yellow-200",
-                          },
-                          {
-                            task: "デザインレビュー",
-                            priority: "低",
-                            color: "bg-green-100 text-green-800 border-green-200",
-                          },
-                        ].map((item) => (
-                          <div
-                            key={item.task}
-                            className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors"
-                          >
-                            <div className="flex items-center gap-3">
-                              <Checkbox className="rounded-full" />
-                              <span className="font-medium">{item.task}</span>
+                  <div className="col-span-2">
+                    <Card className="h-[440px]">
+                      <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
+                        <CardTitle className="text-xl font-semibold text-black">Today's Task</CardTitle>
+                        <Clock className="w-5 h-5 text-black/70" />
+                      </CardHeader>
+                      <CardContent className="pt-6 h-[360px] overflow-auto">
+                        <div className="space-y-4">
+                          {[
+                            { task: "ミーティング準備", priority: "高", color: "bg-red-100 text-red-800 border-red-200" },
+                            {
+                              task: "レポート作成",
+                              priority: "中",
+                              color: "bg-yellow-100 text-yellow-800 border-yellow-200",
+                            },
+                            {
+                              task: "デザインレビュー",
+                              priority: "低",
+                              color: "bg-green-100 text-green-800 border-green-200",
+                            },
+                          ].map((item) => (
+                            <div
+                              key={item.task}
+                              className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                            >
+                              <div className="flex items-center gap-3">
+                                <Checkbox className="rounded-full" />
+                                <span className="font-medium">{item.task}</span>
+                              </div>
+                              <Badge className={`${item.color} border`}>{item.priority}</Badge>
                             </div>
-                            <Badge className={`${item.color} border`}>{item.priority}</Badge>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Calendar */}
+                  <div className="col-span-1">
+                    <Card className="h-[440px]">
+                      <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
+                        <CardTitle className="text-xl font-semibold text-black">カレンダー</CardTitle>
+                        <CalendarIcon className="w-5 h-5 text-black/70" />
+                      </CardHeader>
+                      <CardContent className="flex items-start justify-center pt-2 px-1 h-[360px]">
+                        <Calendar
+                          className="rounded-md scale-[0.98]"
+                          locale={ja}
+                          classNames={{
+                            head_row: "flex",
+                            head_cell: "flex-1 text-center text-muted-foreground font-medium",
+                            row: "flex w-full mt-1",
+                            cell: "flex-1 text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 h-[38px] w-[38px]",
+                            day: "h-[38px] w-[38px] p-0 font-normal aria-selected:opacity-100",
+                            nav_button: "h-6 w-6 bg-transparent p-0 opacity-50 hover:opacity-100",
+                            table: "w-full border-collapse space-y-1",
+                          }}
+                        />
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
 
                 {/* Project Cards */}
@@ -297,34 +336,35 @@ export default function Dashboard() {
                 </Card>
               </div>
 
-              {/* Right Column (4 cols) */}
-              <div className="col-span-4 space-y-8 max-w-[460px] mx-auto">
-                {/* Calendar */}
+              {/* Right Column */}
+              <div className="space-y-8 w-[520px]">
+                {/* Task Statistics */}
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
-                    <CardTitle className="text-xl font-semibold text-black">カレンダー</CardTitle>
-                    <CalendarIcon className="w-5 h-5 text-black/70" />
+                    <CardTitle className="text-xl font-semibold text-black">2024年プロジェクト情報</CardTitle>
+                    <CheckCircle2 className="w-5 h-5 text-black/70" />
                   </CardHeader>
-                  <CardContent className="flex items-center justify-center p-4">
-                    <Calendar
-                      className="rounded-md"
-                      locale={ja}
-                      classNames={{
-                        head_row: "flex",
-                        head_cell: "flex-1 text-center text-muted-foreground font-medium",
-                        row: "flex w-full mt-2",
-                        cell: "flex-1 text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 h-12 w-12",
-                        day: "h-12 w-12 p-0 font-normal aria-selected:opacity-100",
-                        day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-                        day_today: "bg-accent text-accent-foreground",
-                        day_outside: "text-muted-foreground opacity-50",
-                        day_disabled: "text-muted-foreground opacity-50",
-                        day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
-                        day_hidden: "invisible",
-                        nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
-                        table: "w-full border-collapse space-y-1",
-                      }}
-                    />
+                  <CardContent className="pt-6">
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="bg-blue-50 p-4 rounded-lg text-center">
+                        <div className="mb-2">
+                          <span className="text-sm font-medium text-blue-900 whitespace-nowrap">進行中プロジェクト</span>
+                        </div>
+                        <div className="text-2xl font-bold text-blue-600">8</div>
+                      </div>
+                      <div className="bg-green-50 p-4 rounded-lg text-center">
+                        <div className="mb-2">
+                          <span className="text-sm font-medium text-green-900">完了プロジェクト</span>
+                        </div>
+                        <div className="text-2xl font-bold text-green-600">15</div>
+                      </div>
+                      <div className="bg-orange-50 p-4 rounded-lg text-center">
+                        <div className="mb-2">
+                          <span className="text-sm font-medium text-orange-900">今年度の目標</span>
+                        </div>
+                        <div className="text-2xl font-bold text-orange-600">25</div>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
 
