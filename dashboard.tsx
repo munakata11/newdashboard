@@ -45,7 +45,7 @@ export default function Dashboard() {
       >
         <div className="p-4 flex items-center justify-between">
           <h1
-            className={`text-xl font-semibold transition-opacity duration-300 ${
+            className={`text-xl font-semibold transition-opacity duration-300 pl-2 ${
               isSidebarOpen ? "opacity-100" : "opacity-0 w-0 overflow-hidden"
             }`}
           >
@@ -84,14 +84,14 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main
-        className={`flex-1 transition-all duration-300 ${isSidebarOpen ? "ml-[240px]" : "ml-[72px]"} bg-blue-50/80`}
+        className={`flex-1 transition-all duration-300 ${isSidebarOpen ? "ml-[240px]" : "ml-[72px]"} bg-blue-50/40`}
       >
         {/* Header */}
         <div className="p-6 bg-blue-50/80">
           <div className="w-[1700px] mx-auto">
-            <div className="h-[200px] relative rounded-lg overflow-hidden bg-[#1E2537]">
+            <div className="h-[350px] relative rounded-lg overflow-hidden bg-[#1E2537]">
               <img
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/project-Q61yM7B7ozgzBqgrpmysH5zOv3RYSZ.png"
+                src="/image/back.png"
                 alt="Project Dashboard"
                 className="w-full h-full object-cover"
               />
@@ -107,9 +107,9 @@ export default function Dashboard() {
               <div className="flex-1 space-y-8">
                 {/* Gantt Chart */}
                 <Card>
-                  <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-[#1E2537] rounded-t-lg border-b">
-                    <CardTitle className="text-xl font-semibold text-white">ガントチャート</CardTitle>
-                    <BarChart3 className="w-5 h-5 text-white/70" />
+                  <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
+                    <CardTitle className="text-xl font-semibold text-black">ガントチャート</CardTitle>
+                    <BarChart3 className="w-5 h-5 text-black/70" />
                   </CardHeader>
                   <CardContent>
                     {/* Timeline Header */}
@@ -184,9 +184,9 @@ export default function Dashboard() {
                 <div className="grid grid-cols-2 gap-6">
                   {/* Task Statistics */}
                   <Card>
-                    <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-[#1E2537] rounded-t-lg border-b">
-                      <CardTitle className="text-xl font-semibold text-white">2024年プロジェクト情報</CardTitle>
-                      <CheckCircle2 className="w-5 h-5 text-white/70" />
+                    <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
+                      <CardTitle className="text-xl font-semibold text-black">2024年プロジェクト情報</CardTitle>
+                      <CheckCircle2 className="w-5 h-5 text-black/70" />
                     </CardHeader>
                     <CardContent className="pt-6">
                       <div className="space-y-4">
@@ -208,9 +208,9 @@ export default function Dashboard() {
 
                   {/* ToDo + Task */}
                   <Card>
-                    <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-[#1E2537] rounded-t-lg border-b">
-                      <CardTitle className="text-xl font-semibold text-white">ToDo + Task</CardTitle>
-                      <Clock className="w-5 h-5 text-white/70" />
+                    <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
+                      <CardTitle className="text-xl font-semibold text-black">ToDo + Task</CardTitle>
+                      <Clock className="w-5 h-5 text-black/70" />
                     </CardHeader>
                     <CardContent className="pt-6">
                       <div className="space-y-4">
@@ -245,10 +245,10 @@ export default function Dashboard() {
 
                 {/* Project Cards */}
                 <Card>
-                  <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-[#1E2537] rounded-t-lg border-b">
-                    <CardTitle className="text-xl font-semibold text-white">プロジェクト一覧</CardTitle>
-                    <Button className="bg-transparent hover:bg-white/10 text-white">
-                      新規プロジェクト
+                  <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
+                    <CardTitle className="text-xl font-semibold text-black">プロジェクト一覧</CardTitle>
+                    <Button className="bg-blue-600/90 hover:bg-blue-700 text-white text-base font-semibold rounded-full px-4 py-2">
+                      ＋ 新規プロジェクト
                     </Button>
                   </CardHeader>
                   <CardContent className="pt-6">
@@ -284,7 +284,10 @@ export default function Dashboard() {
                                 <span className="text-muted-foreground">進捗</span>
                                 <span className="font-medium">{project.progress}%</span>
                               </div>
-                              <Progress value={project.progress} className="h-1" />
+                              <Progress 
+                                value={project.progress} 
+                                className="h-1 [&>div]:bg-blue-700 bg-blue-100" 
+                              />
                             </div>
                           </CardContent>
                         </Card>
@@ -298,9 +301,9 @@ export default function Dashboard() {
               <div className="col-span-4 space-y-8 max-w-[460px] mx-auto">
                 {/* Calendar */}
                 <Card>
-                  <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-[#1E2537] rounded-t-lg border-b">
-                    <CardTitle className="text-xl font-semibold text-white">カレンダー</CardTitle>
-                    <CalendarIcon className="w-5 h-5 text-white/70" />
+                  <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
+                    <CardTitle className="text-xl font-semibold text-black">カレンダー</CardTitle>
+                    <CalendarIcon className="w-5 h-5 text-black/70" />
                   </CardHeader>
                   <CardContent className="flex items-center justify-center p-4">
                     <Calendar
@@ -327,9 +330,9 @@ export default function Dashboard() {
 
                 {/* Team Chat */}
                 <Card>
-                  <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-[#1E2537] rounded-t-lg border-b">
-                    <CardTitle className="text-xl font-semibold text-white">チームチャット</CardTitle>
-                    <MessageSquare className="w-5 h-5 text-white/70" />
+                  <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
+                    <CardTitle className="text-xl font-semibold text-black">チームチャット</CardTitle>
+                    <MessageSquare className="w-5 h-5 text-black/70" />
                   </CardHeader>
                   <CardContent>
                     {/* Online Team Members */}
