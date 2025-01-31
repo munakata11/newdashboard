@@ -88,12 +88,12 @@ export default function Dashboard() {
       >
         {/* Header */}
         <div className="p-6 bg-blue-50/80">
-          <div className="max-w-[1800px] mx-auto">
-            <div className="h-[200px] bg-cover bg-center relative rounded-lg overflow-hidden">
+          <div className="w-[1700px] mx-auto">
+            <div className="h-[200px] relative rounded-lg overflow-hidden bg-[#1E2537]">
               <img
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/project-Q61yM7B7ozgzBqgrpmysH5zOv3RYSZ.png"
                 alt="Project Dashboard"
-                className="w-full h-full object-cover object-left"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
@@ -101,10 +101,10 @@ export default function Dashboard() {
 
         {/* Content */}
         <div className="p-6">
-          <div className="max-w-[1800px] mx-auto">
-            <div className="grid grid-cols-12 gap-8">
-              {/* Left Column (8 cols) */}
-              <div className="col-span-8 space-y-8">
+          <div className="w-[1700px] mx-auto">
+            <div className="flex gap-8">
+              {/* Left Column */}
+              <div className="flex-1 space-y-8">
                 {/* Gantt Chart */}
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-[#1E2537] rounded-t-lg border-b">
@@ -113,10 +113,10 @@ export default function Dashboard() {
                   </CardHeader>
                   <CardContent>
                     {/* Timeline Header */}
-                    <div className="mb-6">
+                    <div className="mb-8 pt-4">
                       <div className="flex items-center">
                         <div className="w-[180px]"></div>
-                        <div className="flex-1 flex">
+                        <div className="flex-1 flex relative">
                           {Array.from({ length: 12 }, (_, i) => (
                             <div key={i} className="flex-1 text-center text-sm text-muted-foreground">
                               {`${i + 1}月`}
@@ -124,30 +124,23 @@ export default function Dashboard() {
                           ))}
                         </div>
                       </div>
-                      <div className="flex items-center mt-1">
+                      <div className="flex items-center mt-2">
                         <div className="w-[180px]"></div>
                         <div className="flex-1 relative">
                           <div className="absolute inset-y-0 left-0 right-0 h-[2px] bg-border"></div>
-                          {Array.from({ length: 11 }, (_, i) => (
-                            <div
-                              key={i}
-                              className="absolute top-0 bottom-0 w-px bg-border/90"
-                              style={{ left: `${((i + 1) / 12) * 100}%` }}
-                            ></div>
-                          ))}
                         </div>
                       </div>
                     </div>
                     <div className="space-y-6 relative">
-                      {/* Vertical grid lines for the entire chart area */}
-                      <div className="absolute inset-0 flex">
+                      {/* Vertical grid lines */}
+                      <div className="absolute inset-0 flex" style={{ height: "calc(100% + 24px)", top: "-24px" }}>
                         <div className="w-[180px]"></div>
                         <div className="flex-1 relative">
-                          {Array.from({ length: 11 }, (_, i) => (
+                          {Array.from({ length: 12 }, (_, i) => (
                             <div
                               key={i}
-                              className="absolute top-0 bottom-0 w-px bg-border/60"
-                              style={{ left: `${((i + 1) / 12) * 100}%` }}
+                              className="absolute top-0 bottom-0 w-px bg-border/90"
+                              style={{ left: `${(i / 12) * 100}%` }}
                             ></div>
                           ))}
                         </div>
@@ -280,7 +273,7 @@ export default function Dashboard() {
                           progress: 30,
                         },
                       ].map((project, i) => (
-                        <Card key={i} className="hover:shadow-lg transition-all duration-200 group">
+                        <Card key={i} className="hover:shadow-lg transition-all duration-200 group bg-gray-50/80">
                           <CardHeader className="pb-2">
                             <CardTitle className="text-lg font-semibold line-clamp-1">{project.title}</CardTitle>
                           </CardHeader>
@@ -309,16 +302,16 @@ export default function Dashboard() {
                     <CardTitle className="text-xl font-semibold text-white">カレンダー</CardTitle>
                     <CalendarIcon className="w-5 h-5 text-white/70" />
                   </CardHeader>
-                  <CardContent className="flex justify-center p-2">
+                  <CardContent className="flex items-center justify-center p-4">
                     <Calendar
-                      className="rounded-md w-full"
+                      className="rounded-md"
                       locale={ja}
                       classNames={{
                         head_row: "flex",
                         head_cell: "flex-1 text-center text-muted-foreground font-medium",
                         row: "flex w-full mt-2",
-                        cell: "flex-1 text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 h-9 w-9",
-                        day: "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+                        cell: "flex-1 text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 h-12 w-12",
+                        day: "h-12 w-12 p-0 font-normal aria-selected:opacity-100",
                         day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
                         day_today: "bg-accent text-accent-foreground",
                         day_outside: "text-muted-foreground opacity-50",
