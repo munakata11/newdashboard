@@ -128,7 +128,7 @@ export default function Dashboard() {
                 {/* Gantt Chart */}
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
-                    <CardTitle className="text-xl font-semibold text-black">ガントチャート</CardTitle>
+                    <CardTitle className="text-xl font-semibold text-black">プロジェクトチャート</CardTitle>
                     <BarChart3 className="w-5 h-5 text-black/70" />
                   </CardHeader>
                   <CardContent>
@@ -385,7 +385,7 @@ export default function Dashboard() {
                 {/* Task Statistics */}
                 <Card className="shadow-sm border-gray-300">
                   <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
-                    <CardTitle className="text-xl font-semibold text-black">2024年プロジェクト情報</CardTitle>
+                    <CardTitle className="text-xl font-semibold text-black">{new Date().getFullYear()}年 プロジェクト情報</CardTitle>
                     <CheckCircle2 className="w-5 h-5 text-black/70" />
                   </CardHeader>
                   <CardContent className="pt-6">
@@ -475,6 +475,44 @@ export default function Dashboard() {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+
+            {/* Full Width Footer */}
+            <div className="mt-10">
+              <Card className="shadow-sm border-gray-300 bg-gradient-to-r from-blue-50 to-blue-100/50">
+                <CardContent className="py-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-4">
+                      <div className="bg-blue-600 w-10 h-10 rounded-lg flex items-center justify-center">
+                        <FileBarChart className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg text-gray-900">Project Dashboard</h3>
+                        <p className="text-sm text-gray-600">Version 1.0.0</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button className="text-gray-600 hover:text-gray-900 transition-colors">
+                        <Settings className="w-5 h-5" />
+                      </button>
+                      <button className="text-gray-600 hover:text-gray-900 transition-colors">
+                        <MessageSquare className="w-5 h-5" />
+                      </button>
+                      <button className="text-gray-600 hover:text-gray-900 transition-colors">
+                        <Home className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-gray-600">
+                    <span>© 2024 All rights reserved</span>
+                    <div className="flex items-center gap-4">
+                      <a href="#" className="hover:text-gray-900 transition-colors">ヘルプ</a>
+                      <a href="#" className="hover:text-gray-900 transition-colors">プライバシー</a>
+                      <a href="#" className="hover:text-gray-900 transition-colors">利用規約</a>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
