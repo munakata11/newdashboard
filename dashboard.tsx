@@ -93,8 +93,8 @@ export default function Dashboard() {
         className={`flex-1 transition-all duration-300 ${isSidebarOpen ? "ml-[240px]" : "ml-[72px]"} bg-blue-50/40`}
       >
         {/* Header */}
-        <div className="p-6 bg-blue-50/80">
-          <div className="w-[1700px] mx-auto">
+        <div className="p-6 bg-blue-50/40">
+          <div className="container mx-auto max-w-[1900px] transition-all duration-300">
             <div className="h-[350px] relative rounded-lg overflow-hidden bg-[#1E2537]">
               <img
                 src="/image/back.png"
@@ -107,10 +107,10 @@ export default function Dashboard() {
 
         {/* Content */}
         <div className="p-6">
-          <div className="w-[1700px] mx-auto">
+          <div className="container mx-auto max-w-[1900px] transition-all duration-300">
             <div className="flex gap-8">
               {/* Left Column */}
-              <div className="w-[1160px] space-y-8">
+              <div className="flex-1 space-y-10">
                 {/* Gantt Chart */}
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
@@ -121,7 +121,7 @@ export default function Dashboard() {
                     {/* Timeline Header */}
                     <div className="mb-1 pt-4">
                       <div className="flex items-center">
-                        <div className="w-[180px] pl-2">
+                        <div className="w-[240px] pl-2">
                           <Select value={selectedYear} onValueChange={setSelectedYear}>
                             <SelectTrigger className="w-[120px] h-8">
                               <SelectValue placeholder="年度を選択" />
@@ -144,7 +144,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex items-center mt-1">
-                        <div className="w-[180px]"></div>
+                        <div className="w-[240px]"></div>
                         <div className="flex-1 relative">
                           <div className="absolute inset-y-0 left-0 right-0 h-[2px] bg-border"></div>
                         </div>
@@ -153,7 +153,7 @@ export default function Dashboard() {
                     <div className="space-y-6 relative pt-2">
                       {/* Vertical grid lines */}
                       <div className="absolute inset-0 flex" style={{ height: "100%" }}>
-                        <div className="w-[180px]"></div>
+                        <div className="w-[240px]"></div>
                         <div className="flex-1 relative">
                           {Array.from({ length: 12 }, (_, i) => (
                             <div
@@ -166,40 +166,35 @@ export default function Dashboard() {
                       </div>
                       {/* Tasks */}
                       {[
-                        { name: "デザイン作成", startMonth: 0, duration: 1, color: "bg-blue-500", year: "2024" },
-                        {
-                          name: "フロントエンド開発",
-                          startMonth: 1,
-                          duration: 2,
-                          color: "bg-indigo-500",
-                          year: "2024"
+                        { 
+                          name: "○○地区水道施設整備事業", 
+                          startMonth: 0, 
+                          duration: 3, 
+                          color: "bg-blue-500", 
+                          year: "2024",
+                          progress: 75
                         },
                         {
-                          name: "バックエンド開発",
+                          name: "飲食店向け予約管理アプリ開発",
                           startMonth: 2,
-                          duration: 2,
-                          color: "bg-violet-500",
-                          year: "2024"
+                          duration: 4,
+                          color: "bg-indigo-500",
+                          year: "2024",
+                          progress: 45
                         },
                         {
-                          name: "テスト実施",
+                          name: "ECサイトリニューアル",
                           startMonth: 4,
-                          duration: 1,
-                          color: "bg-pink-500",
-                          year: "2024"
-                        },
-                        {
-                          name: "ユーザー研修",
-                          startMonth: 5,
-                          duration: 2,
-                          color: "bg-cyan-500",
-                          year: "2024"
+                          duration: 3,
+                          color: "bg-violet-500",
+                          year: "2024",
+                          progress: 30
                         },
                       ].filter(task => task.year === selectedYear)
                       .map((task) => (
                         <div key={task.name} className="space-y-2 relative z-10">
                           <div className="flex items-center py-1.5">
-                            <span className="w-[180px] font-medium text-sm whitespace-nowrap">{task.name}</span>
+                            <span className="w-[240px] font-medium text-sm whitespace-nowrap">{task.name}</span>
                             <div className="flex-1 relative">
                               <div
                                 className={`absolute h-4 rounded ${task.color}`}
@@ -220,7 +215,7 @@ export default function Dashboard() {
                 <div className="grid grid-cols-3 gap-6">
                   {/* ToDo + Task */}
                   <div className="col-span-2">
-                    <Card className="h-[440px]">
+                    <Card className="h-[440px] shadow-sm border-gray-300">
                       <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
                         <CardTitle className="text-xl font-semibold text-black">Today's Task</CardTitle>
                         <Clock className="w-5 h-5 text-black/70" />
@@ -258,7 +253,7 @@ export default function Dashboard() {
 
                   {/* Calendar */}
                   <div className="col-span-1">
-                    <Card className="h-[440px]">
+                    <Card className="h-[440px] shadow-sm border-gray-300">
                       <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
                         <CardTitle className="text-xl font-semibold text-black">カレンダー</CardTitle>
                         <CalendarIcon className="w-5 h-5 text-black/70" />
@@ -286,7 +281,7 @@ export default function Dashboard() {
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
                     <CardTitle className="text-xl font-semibold text-black">プロジェクト一覧</CardTitle>
-                    <Button className="bg-blue-600/90 hover:bg-blue-700 text-white text-base font-semibold rounded-full px-4 py-2">
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold rounded-full px-4 py-2">
                       ＋ 新規プロジェクト
                     </Button>
                   </CardHeader>
@@ -312,7 +307,7 @@ export default function Dashboard() {
                           progress: 30,
                         },
                       ].map((project, i) => (
-                        <Card key={i} className="hover:shadow-lg transition-all duration-200 group bg-gray-50/80">
+                        <Card key={i} className="hover:shadow-lg transition-all duration-200 group bg-blue-50/80 shadow-sm border-gray-300">
                           <CardHeader className="pb-2">
                             <CardTitle className="text-lg font-semibold line-clamp-1">{project.title}</CardTitle>
                           </CardHeader>
@@ -337,9 +332,11 @@ export default function Dashboard() {
               </div>
 
               {/* Right Column */}
-              <div className="space-y-8 w-[520px]">
+              <div className={`space-y-10 transition-all duration-300 ${
+                isSidebarOpen ? "w-[520px]" : "w-[580px]"
+              }`}>
                 {/* Task Statistics */}
-                <Card>
+                <Card className="shadow-sm border-gray-300">
                   <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
                     <CardTitle className="text-xl font-semibold text-black">2024年プロジェクト情報</CardTitle>
                     <CheckCircle2 className="w-5 h-5 text-black/70" />
@@ -369,7 +366,7 @@ export default function Dashboard() {
                 </Card>
 
                 {/* Team Chat */}
-                <Card>
+                <Card className="shadow-sm border-gray-300">
                   <CardHeader className="flex flex-row items-center justify-between py-4 space-y-0 bg-blue-100 rounded-t-lg border-b">
                     <CardTitle className="text-xl font-semibold text-black">チームチャット</CardTitle>
                     <MessageSquare className="w-5 h-5 text-black/70" />
