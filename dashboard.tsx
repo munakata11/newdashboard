@@ -20,14 +20,18 @@ import {
   Settings,
   PanelLeftClose,
   PanelLeftOpen,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
 import { useState } from "react"
 import { ja } from "date-fns/locale"
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay, addMonths, subMonths } from "date-fns"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [selectedYear, setSelectedYear] = useState("2024")
+  const [currentDate, setCurrentDate] = useState(new Date())
 
   // 現在の年から前後2年分の年度を生成
   const currentYear = new Date().getFullYear()
@@ -40,6 +44,16 @@ export default function Dashboard() {
     { name: "山田", status: "online" },
     { name: "中村", status: "offline" },
   ]
+
+  // カレンダー用の日付計算
+  const firstDayOfMonth = startOfMonth(currentDate)
+  const lastDayOfMonth = endOfMonth(currentDate)
+  const daysInMonth = eachDayOfInterval({ start: firstDayOfMonth, end: lastDayOfMonth })
+  const startingDayIndex = getDay(firstDayOfMonth)
+
+  // 前月・次月の移動
+  const goToPreviousMonth = () => setCurrentDate(prev => subMonths(prev, 1))
+  const goToNextMonth = () => setCurrentDate(prev => addMonths(prev, 1))
 
   return (
     <div className="flex min-h-screen bg-[#F8F9FA]">
@@ -170,7 +184,7 @@ export default function Dashboard() {
                           name: "○○地区水道施設整備事業", 
                           startMonth: 0, 
                           duration: 3, 
-                          color: "bg-blue-500", 
+                          color: "bg-blue-200", 
                           year: "2024",
                           progress: 75
                         },
@@ -178,7 +192,7 @@ export default function Dashboard() {
                           name: "飲食店向け予約管理アプリ開発",
                           startMonth: 2,
                           duration: 4,
-                          color: "bg-indigo-500",
+                          color: "bg-green-200",
                           year: "2024",
                           progress: 45
                         },
@@ -186,7 +200,7 @@ export default function Dashboard() {
                           name: "ECサイトリニューアル",
                           startMonth: 4,
                           duration: 3,
-                          color: "bg-violet-500",
+                          color: "bg-orange-200",
                           year: "2024",
                           progress: 30
                         },
@@ -258,20 +272,53 @@ export default function Dashboard() {
                         <CardTitle className="text-xl font-semibold text-black">カレンダー</CardTitle>
                         <CalendarIcon className="w-5 h-5 text-black/70" />
                       </CardHeader>
-                      <CardContent className="flex items-start justify-center pt-2 px-1 h-[360px]">
-                        <Calendar
-                          className="rounded-md scale-[0.98]"
-                          locale={ja}
-                          classNames={{
-                            head_row: "flex",
-                            head_cell: "flex-1 text-center text-muted-foreground font-medium",
-                            row: "flex w-full mt-1",
-                            cell: "flex-1 text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 h-[38px] w-[38px]",
-                            day: "h-[38px] w-[38px] p-0 font-normal aria-selected:opacity-100",
-                            nav_button: "h-6 w-6 bg-transparent p-0 opacity-50 hover:opacity-100",
-                            table: "w-full border-collapse space-y-1",
-                          }}
-                        />
+                      <CardContent className="flex items-center justify-center pt-2 px-4 h-[360px]">
+                        <div className="w-full max-w-[320px]">
+                          {/* Calendar Header */}
+                          <div className="flex items-center justify-between h-12">
+                            <button onClick={goToPreviousMonth} className="p-1 hover:bg-gray-100 rounded">
+                              <ChevronLeft className="h-5 w-5" />
+                            </button>
+                            <h2 className="text-xl font-semibold min-w-[140px] text-center">
+                              {format(currentDate, 'M月 yyyy', { locale: ja })}
+                            </h2>
+                            <button onClick={goToNextMonth} className="p-1 hover:bg-gray-100 rounded">
+                              <ChevronRight className="h-5 w-5" />
+                            </button>
+                          </div>
+                          {/* Weekday Headers */}
+                          <div className="grid grid-cols-7 h-8">
+                            {['日', '月', '火', '水', '木', '金', '土'].map((day, i) => (
+                              <div
+                                key={day}
+                                className={`text-center font-medium flex items-center justify-center ${
+                                  i === 0 ? 'text-orange-600' : i === 6 ? 'text-blue-600' : 'text-black'
+                                }`}
+                              >
+                                {day}
+                              </div>
+                            ))}
+                          </div>
+                          {/* Calendar Grid */}
+                          <div className="grid grid-cols-7 gap-1 h-[240px]">
+                            {/* Empty cells for days before start of month */}
+                            {Array.from({ length: startingDayIndex }).map((_, i) => (
+                              <div key={`empty-${i}`} className="h-9" />
+                            ))}
+                            {/* Days of the month */}
+                            {daysInMonth.map((date) => (
+                              <div
+                                key={date.toString()}
+                                className={`h-9 flex items-center justify-center text-black
+                                  ${getDay(date) === 0 ? 'bg-orange-50' : ''}
+                                  ${getDay(date) === 6 ? 'bg-blue-50' : ''}
+                                  hover:bg-gray-100 rounded-sm`}
+                              >
+                                {format(date, 'd')}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </CardContent>
                     </Card>
                   </div>
