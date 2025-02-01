@@ -27,6 +27,7 @@ import { useState } from "react"
 import { ja } from "date-fns/locale"
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay, addMonths, subMonths } from "date-fns"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Link from "next/link"
 
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -336,42 +337,47 @@ export default function Dashboard() {
                     <div className="grid grid-cols-3 gap-6">
                       {[
                         {
+                          id: "1",
                           title: "○○地区水道施設整備事業",
                           description:
                             "○○地区における人口増加と社会経済発展に対応するため、新たな水道施設の整備および既存施設の改修を行う。",
                           progress: 75,
                         },
                         {
+                          id: "2",
                           title: "飲食店向け予約管理アプリ開発",
                           description:
                             "小規模の飲食店向けに、予約管理、顧客管理、売上管理を一括で行えるアプリケーションを開発。",
                           progress: 45,
                         },
                         {
+                          id: "3",
                           title: "ECサイトリニューアル",
                           description:
                             "アクセス数の増加に伴い、サイトの表示速度低下とモバイル対応の不備が課題となっているECサイトのリニューアル。",
                           progress: 30,
                         },
                       ].map((project, i) => (
-                        <Card key={i} className="hover:shadow-lg transition-all duration-200 group bg-blue-50/80 shadow-sm border-gray-300">
-                          <CardHeader className="pb-2">
-                            <CardTitle className="text-lg font-semibold line-clamp-1">{project.title}</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <p className="text-sm text-muted-foreground line-clamp-3 mb-4">{project.description}</p>
-                            <div className="space-y-2">
-                              <div className="flex justify-between text-sm">
-                                <span className="text-muted-foreground">進捗</span>
-                                <span className="font-medium">{project.progress}%</span>
+                        <Link href={`/project/${project.id}`} key={i} className="block h-full">
+                          <Card className="flex flex-col h-full hover:shadow-lg transition-all duration-200 group bg-blue-50/80 shadow-sm border-gray-300">
+                            <CardHeader className="pb-2">
+                              <CardTitle className="text-lg font-semibold line-clamp-1">{project.title}</CardTitle>
+                            </CardHeader>
+                            <CardContent className="flex flex-col flex-1">
+                              <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">{project.description}</p>
+                              <div className="space-y-2">
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-muted-foreground">進捗</span>
+                                  <span className="font-medium">{project.progress}%</span>
+                                </div>
+                                <Progress 
+                                  value={project.progress} 
+                                  className="h-1 [&>div]:bg-blue-700 bg-blue-100" 
+                                />
                               </div>
-                              <Progress 
-                                value={project.progress} 
-                                className="h-1 [&>div]:bg-blue-700 bg-blue-100" 
-                              />
-                            </div>
-                          </CardContent>
-                        </Card>
+                            </CardContent>
+                          </Card>
+                        </Link>
                       ))}
                     </div>
                   </CardContent>
@@ -504,7 +510,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="flex items-center justify-between text-sm text-gray-600">
-                    <span>© 2024 All rights reserved</span>
+                    <span> 2024 All rights reserved</span>
                     <div className="flex items-center gap-4">
                       <a href="#" className="hover:text-gray-900 transition-colors">ヘルプ</a>
                       <a href="#" className="hover:text-gray-900 transition-colors">プライバシー</a>
@@ -520,4 +526,3 @@ export default function Dashboard() {
     </div>
   )
 }
-
