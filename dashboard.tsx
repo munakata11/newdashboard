@@ -83,14 +83,15 @@ export default function Dashboard() {
         </div>
         <nav className="space-y-1 px-3">
           {[
-            { label: "ホーム", icon: Home },
-            { label: "プロジェクト", icon: FolderKanban },
-            { label: "カレンダー", icon: CalendarIcon },
-            { label: "レポート", icon: FileBarChart },
-            { label: "設定", icon: Settings },
+            { label: "ホーム", icon: Home, href: "/" },
+            { label: "プロジェクト", icon: FolderKanban, href: "/project/1" },
+            { label: "カレンダー", icon: CalendarIcon, href: "/calendar" },
+            { label: "レポート", icon: FileBarChart, href: "/report" },
+            { label: "設定", icon: Settings, href: "/settings" },
           ].map((item) => (
-            <button
+            <Link
               key={item.label}
+              href={item.href}
               className={`w-full flex items-center rounded-lg hover:bg-white/10 transition-colors group
                 ${isSidebarOpen ? 'px-4 py-3' : 'p-3 justify-center'}`}
             >
@@ -98,7 +99,7 @@ export default function Dashboard() {
               {isSidebarOpen && (
                 <span className="font-medium ml-3">{item.label}</span>
               )}
-            </button>
+            </Link>
           ))}
         </nav>
       </aside>
